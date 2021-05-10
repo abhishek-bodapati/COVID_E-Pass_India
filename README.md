@@ -44,3 +44,8 @@ Permanently set the environment variable(accessible in all subsequent cli sessio
 setx SENDGRID_API_KEY "YOUR_API_KEY"
 setx MAIL_DEFAULT_SENDER "YOUR_MAIL_ID"
 ```
+## How to run?
+```
+python main.py
+```
+* Open [localhost:5000](http://127.0.0.1:3000/) in browser.
