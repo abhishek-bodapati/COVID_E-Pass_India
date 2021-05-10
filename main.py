@@ -120,7 +120,7 @@ def download():
 
     return response
 
-# Verify page
+# Verification page
 @app.route('/verify', methods = ['POST', 'GET'])
 def verify():
     return render_template("verify.html")
@@ -137,7 +137,7 @@ def verifycode():
 
 # Send mail
 def send_mail(email):
-	msg = Message("ePass", sender='abhishek.bodapati@gmail.com', recipients=[email])
+	msg = Message("ePass", sender=app.config['MAIL_DEFAULT_SENDER'], recipients=[email])
 	msg.body = "PFA"
 	with current_app.open_resource("static/PDFs/epass.pdf") as fp:
 		msg.attach("epass.pdf","application/pdf", fp.read())
