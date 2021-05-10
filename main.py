@@ -12,7 +12,6 @@ from flask_mail_sendgrid import MailSendGrid
 from flask_mail import Message
 from dotenv import load_dotenv
 from pathlib import Path
-import os
 
 app = Flask(__name__)
 img_folder = os.path.join('static', 'images')
