@@ -1,0 +1,56 @@
+<html>
+<head>
+	<title>Form</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<center>
+	<br><br>	
+	<h2>Apply for a new e-Pass</h2>
+	<form method="post" action="/register" style="width: 70%;">	
+		<br><br>	
+		<div class = "form-group">
+			<label>First Name</label>
+			<input type="text"class="form-control" name="firstname" placeholder="Enter First Name"value="Abhishek" required="">
+		</div>
+		<div class = "form-group">
+			<label>Last Name</label>
+			<input type="text"class="form-control" name="lastname" placeholder="Enter Last Name" value="Bodapati" required="">
+		</div>
+		<div class = "form-group">
+			<label>Mobile Number</label>
+			<input type="tel" class="form-control" name="mobile" placeholder="Enter Mobile Number" value = "9059587845" pattern="[0-9]{10}" required>
+		</div>
+		<div class = "form-group">
+			<label>E-mail address</label>
+			<input type="email" class="form-control"placeholder="Enter E-mail" value="18bd1a0528@gmail.com" name = "email" required>
+		</div>
+	    <div class = "form-group">
+		    <label>Source State</label>
+		    <input type="text" class="form-control"name="srcstate" value="TN" required="">
+		</div>		
+		<div class = "form-group">
+		    <label>Source District</label>
+			<input type="text" class="form-control"name="srcdist" value="Ariyalur" required="">
+		</div>
+		<div class = "form-group">
+			<label>Destination State</label>
+		    <input type="text" class="form-control"name="deststate" value="AR" required="">
+		</div>
+		<div class = "form-group">
+			<label>Destination District</label>
+		<input type="text" class="form-control"name="destdist" value="Lepa Rada" required="">
+	    </div>
+		<div class = "form-group">
+		<label>Date of Journey</label>
+		  <input type="date" class="form-control"name="doj" value="2021-08-04" required>
+		</div>
+		<br><button type="submit" class="btn btn-primary">Submit</button>
+	</form> 
+	Already have an ePass? <a href="/verify">Click here to verify</a><br><br>
+</center>
+</body>
+</html>
