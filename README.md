@@ -46,6 +46,6 @@ setx MAIL_DEFAULT_SENDER "YOUR_MAIL_ID"
 ```
 ## How to run?
 ```
-python main.py
+flask run
 ```
 * Open [localhost:5000](http://127.0.0.1:3000/) in browser.
