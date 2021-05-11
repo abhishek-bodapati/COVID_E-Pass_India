@@ -137,7 +137,7 @@ def verifycode():
 
 # Send mail
 def send_mail(email):
-	msg = Message("ePass", sender=app.config['MAIL_DEFAULT_SENDER'], recipients=[email])
+	msg = Message("E-Pass", sender=app.config['MAIL_DEFAULT_SENDER'], recipients=[email])
 	msg.body = "PFA"
 	with current_app.open_resource("static/PDFs/epass.pdf") as fp:
 		msg.attach("epass.pdf","application/pdf", fp.read())
