@@ -16,7 +16,6 @@ from pathlib import Path
 app = Flask(__name__)
 img_folder = os.path.join('static', 'images')
 app.config['UPLOAD_FOLDER'] = img_folder
-
 dotenv_path = Path('sendgrid.env')
 load_dotenv(dotenv_path=dotenv_path) 
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
@@ -40,12 +39,14 @@ db = mongodb_client.db
 # Homepage
 @app.route('/')
 def registration_form():
-   return render_template('form.html')
+    states = ['AN', 'AP', 'AR', 'AS', 'BR', 'CH', 'CT', 'DL', 'DN', 'GA', 'GJ', 'HP', 'HR', 'JH', 'JK', 'KA', 'KL', 'LA', 'LD', 'MH', 'ML', 'MN', 'MP', 'MZ', 'NL', 'OR', 'PB', 'PY', 'RJ', 'SK', 'TG', 'TN', 'TR', 'TT', 'UP', 'UT', 'WB']
+    return render_template('form.html')
 
 # Core Logic
 @app.route('/register',methods = ['POST', 'GET'])
 def input_registration_details():
 
+    # Getting data from the from
     fname = request.form['firstname']
     lname = request.form['lastname']
     global name 
@@ -65,6 +66,7 @@ def input_registration_details():
     global email
     email = request.form['email']
     
+    # Acquiring data from JSON file
     json = dload.json("https://api.covid19india.org/v4/data.json")
     confirmed_cases = json[deststate]['districts'][destdist]['total']['confirmed']
     recovered_cases = json[deststate]['districts'][destdist]['total']['recovered']
@@ -78,6 +80,7 @@ def input_registration_details():
         dictionary = {'_id': obj_id, 'name': name, 'email': email, 'mobile': mobile, 'srcstate': srcstate, 'srcdist': srcdist, 'deststate': deststate, 'destdist': destdist, 'doj': doj}
         tmp = db.Tokens.insert_one(dictionary)
         
+        # Generating QR Code
         img = qrcode.make(obj_id)
         img.save(img_folder + '/x.png')
         full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'x.png')
@@ -90,9 +93,11 @@ def input_registration_details():
         res += my_string
         rendered_page = render_template('epasstemplate.html', name=name, email=email, srcdist=srcdist, srcstate=srcstate, deststate=deststate, destdist=destdist, doj=doj, mobile=mobile, res=res)
 
+        # Creating PDF
         options = {"enable-local-file-access": None, "load-error-handling": "ignore", "load-media-error-handling": "ignore"}
         pdfkit.from_string(rendered_page, 'static/PDFs/epass.pdf', options=options) # Save locally for sending as attachment
 
+        # Sends the mail
         send_mail(email)
 
         return render_template('epass.html', name=name, email=email, srcdist=srcdist, srcstate=srcstate, deststate=deststate, destdist=destdist, doj=doj, mobile=mobile, qrcode=full_filename)
@@ -111,6 +116,7 @@ def download():
     res += my_string
     rendered_page = render_template('epasstemplate.html', name=name, email=email, srcdist=srcdist, srcstate=srcstate, deststate=deststate, destdist=destdist, doj=doj, mobile=mobile, res=res)
     
+    # Creating PDF
     options = {"enable-local-file-access": None, "load-error-handling": "ignore", "load-media-error-handling": "ignore"}
     pdf = pdfkit.from_string(rendered_page, False, options=options)
 
@@ -143,6 +149,7 @@ def send_mail(email):
 		msg.attach("epass.pdf","application/pdf", fp.read())
 	mail.send(msg)
 
+# Generates random string for DB _id
 def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
