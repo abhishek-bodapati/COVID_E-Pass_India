@@ -67,7 +67,7 @@ def input_registration_details():
     email = request.form['email']
     
     # Acquiring data from JSON file
-    json = dload.json("https://api.covid19india.org/v4/data.json")
+    json = dload.json("https://api.covid19india.org/v5/data.json")
     confirmed_cases = json[deststate]['districts'][destdist]['total']['confirmed']
     recovered_cases = json[deststate]['districts'][destdist]['total']['recovered']
     ratio = (recovered_cases / confirmed_cases) * 100;
