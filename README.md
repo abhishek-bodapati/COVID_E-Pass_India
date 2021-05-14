@@ -3,7 +3,7 @@
 * Generates the e-Pass, sends the attachment to the citizen's e-mail address and also provides an option to download.
 * e-Pass details stored in DB.
 * Also verifies the authenticity of the e-Pass with a QR code generated text.
-* COVID data collected from [COVID-19 India API](http://api.covid19india.org/v4/data.json)
+* COVID data collected from [COVID-19 India API](http://api.covid19india.org/v5/data.json)
 
 ## Prerequisites
 - Python version 3 and above
