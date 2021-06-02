@@ -39,7 +39,8 @@ db = mongodb_client.db
 # Homepage
 @app.route('/')
 def registration_form():
-    return render_template('form.html')
+    json = dload.json("https://api.covid19india.org/v5/data.json")
+    return render_template('form.html',json=json)
 
 # Core Logic
 @app.route('/register',methods = ['POST', 'GET'])
