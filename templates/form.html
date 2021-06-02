@@ -4,7 +4,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body>
 <center>
@@ -30,19 +30,34 @@
 		</div>
 	    <div class = "form-group">
 		    <label>Source State</label>
-		    <input type="text" class="form-control"name="srcstate"placeholder="Enter Source State" value="" required="">
+		    <input type="text" class="form-control"list="srcstates"name="srcstate"placeholder="Enter Source State" value="" required="">
+			<datalist id="srcstates">
+				{% for i in json %}
+				<option value="{{i}}"></option>
+				{% endfor %}
+			</datalist>
 		</div>		
 		<div class = "form-group">
 		    <label>Source District</label>
-			<input type="text" class="form-control"name="srcdist" placeholder="Enter Source District"value="" required="">
+			<input type="text" class="form-control"list="srcdists"name="srcdist" placeholder="Enter Source District"value="" required="">
+			<datalist id="srcdists">
+				
+			</datalist>
 		</div>
 		<div class = "form-group">
 			<label>Destination State</label>
-		    <input type="text" class="form-control"name="deststate" placeholder="Enter Destination State"value="" required="">
+		    <input type="text" class="form-control"list="deststates"name="deststate" placeholder="Enter Destination State"value="" required="">
+			<datalist id="deststates">
+				{% for i in json %}
+				<option value="{{i}}"></option>
+				{% endfor %}
+			</datalist>
 		</div>
 		<div class = "form-group">
 			<label>Destination District</label>
-		<input type="text" class="form-control"name="destdist" placeholder="Enter Destination District" value="" required="">
+			<input type="text" class="form-control"list="destdists"name="destdist" placeholder="Enter Destination District" value="" required="">
+			<datalist id="destdists">
+			</datalist>
 	    </div>
 		<div class = "form-group">
 		<label>Date of Journey</label>
@@ -53,4 +68,31 @@
 	Already have an ePass? <a href="/verify">Click here to verify</a><br><br>
 </center>
 </body>
+<script>
+	$(document).ready(function(){
+		$.get("https://api.covid19india.org/v5/data.json",function(data){
+			$("input[name=srcstate]").change(function(){
+				dropdownsrc = $(this).val();
+				$("#srcdists").empty();
+				Object.keys(data[dropdownsrc]['districts']).forEach(function(key){
+					$("#srcdists").append("<option value='" + key + "'>");
+			});
+			});
+
+			$("input[name=deststate]").change(function(){
+				dropdowndest = $(this).val();
+				$("#destdists").empty();
+				Object.keys(data[dropdowndest]['districts']).forEach(function(key){
+					$("#destdists").append("<option value='"+key+"'>");
+				});
+			});
+
+			$("input[name=srcdist]").change(function(){
+				dropdown = $(this).val();
+				$('#destdists').find("option[value='"+ dropdown + "']").remove();
+			});
+		});
+
+	});
+</script>
 </html>
