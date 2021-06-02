@@ -71,6 +71,13 @@
 <script>
 	$(document).ready(function(){
 		$.get("https://api.covid19india.org/v5/data.json",function(data){
+			$(function(){
+				var dtToday = new Date();
+				var maxDate = dtToday.toISOString().substr(0,10);
+
+				$("#date").attr('min', maxDate);
+			});
+			
 			$("input[name=srcstate]").change(function(){
 				dropdownsrc = $(this).val();
 				$("#srcdists").empty();
